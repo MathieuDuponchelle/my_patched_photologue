@@ -433,6 +433,11 @@ class ImageModel(models.Model):
         base, ext = os.path.splitext(self.image_filename())
         return ''.join([base, '_', size, ext])
 
+    def _get_height_for_SIZE_width(self, size):
+        photosize = PhotoSizeCache().sizes.get(size)
+        return int(photosize.width * float(self.image.height) /
+                float(self.image.width))
+
     def _get_SIZE_photosize(self, size):
         return PhotoSizeCache().sizes.get(size)
 
@@ -444,6 +449,7 @@ class ImageModel(models.Model):
 
     def _get_SIZE_url(self, size):
         photosize = PhotoSizeCache().sizes.get(size)
+        self.get_absolute_url()
         if not self.size_exists(photosize):
             self.create_size(photosize)
         if photosize.increment_count:
@@ -471,6 +477,9 @@ class ImageModel(models.Model):
                     curry(self._get_SIZE_url, size=size))
             setattr(self, 'get_%s_filename' % size,
                     curry(self._get_SIZE_filename, size=size))
+            setattr(self, 'get_height_for_%s_width' % size,
+                    curry(self._get_height_for_SIZE_width, size=size))
+
 
     def size_exists(self, photosize):
         func = getattr(self, "get_%s_filename" % photosize.name, None)
