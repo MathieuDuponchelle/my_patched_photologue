@@ -449,7 +449,6 @@ class ImageModel(models.Model):
 
     def _get_SIZE_url(self, size):
         photosize = PhotoSizeCache().sizes.get(size)
-        self.get_absolute_url()
         if not self.size_exists(photosize):
             self.create_size(photosize)
         if photosize.increment_count:
