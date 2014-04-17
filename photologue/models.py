@@ -656,6 +656,12 @@ class Photo(ImageModel):
     def __str__(self):
         return self.title
 
+    def get_galleries_string(self):
+        galleries_string = ""
+        for gal in self.galleries.all():
+            galleries_string += gal.title + " "
+        return galleries_string
+
     def save(self, *args, **kwargs):
         if self.slug is None:
             self.slug = slugify(self.title)
