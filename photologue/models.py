@@ -463,8 +463,7 @@ class ImageModel(models.Model):
                                       self._get_filename_for_size(photosize.name)))
 
     def increment_count(self):
-        self.view_count += 1
-        models.Model.save(self)
+        return
 
     def add_accessor_methods(self, *args, **kwargs):
         for size in PhotoSizeCache().sizes.keys():
