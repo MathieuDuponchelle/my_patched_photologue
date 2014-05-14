@@ -659,7 +659,7 @@ class Photo(ImageModel):
     def get_galleries_string(self):
         galleries_string = ""
         for gal in self.galleries.all():
-            galleries_string += gal.title + " "
+            galleries_string += gal.slug + " "
         return galleries_string
 
     def save(self, *args, **kwargs):
